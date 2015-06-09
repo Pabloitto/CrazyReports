@@ -5,7 +5,13 @@
 	$.App.CrazyReports = angular.module('CrazyReports', ['ngRoute', 'ui.ace']);
 
 	$.App.CrazyReports.config(function($routeProvider){
-		        $routeProvider.when('/', {
+		       
+                $routeProvider.when('/', {
+                    templateUrl: '/views/login.html',
+                    controller: 'LoginController'
+                });
+
+                 $routeProvider.when('/home/', {
                         templateUrl : '/views/home.html',
                         controller  : 'HomeController'
                 });

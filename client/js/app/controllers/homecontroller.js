@@ -1,6 +1,6 @@
 (function(){
 
-	$.App.CrazyReports.controller('HomeController',['$scope', 'HomeService', function($scope,HomeService){
+	var HomeController = function($scope,HomeService){
 
 		var initialHtml = '<!DOCTYPE html>\n<html>\n\n</html>';
 
@@ -121,7 +121,8 @@
 		}
 
 		init();
+	};
 
-	}]);
+	$.App.CrazyReports.controller('HomeController',['$scope', 'HomeService', HomeController]);
 	
 }());
