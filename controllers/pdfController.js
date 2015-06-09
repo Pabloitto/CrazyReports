@@ -61,7 +61,7 @@
             self = this,
             count = 0,
             len = images.length;
-
+        console.log("Images found " + len);
         if(len > 0){
 	        images.each(function() {
 	            var item = $(this),
@@ -114,7 +114,7 @@
     }
 
     function getImageRelativePath(reportKey, imageName) {
-        return "reportes//template-" + reportKey + "//" + imageName;
+        return global.app.reportsFolderName +"/template-" + reportKey + "/" + imageName;
     }
 
     function getImageToSavePath(reportKey, imageName) {
@@ -132,7 +132,7 @@
     }
 
     function getRootApiPath(reportKey) {
-        return global.app.rootPath + "/reportes/template-" + reportKey;
+        return global.app.reportsPath + "/template-" + reportKey;
     }
 
     module.exports = PdfController;
