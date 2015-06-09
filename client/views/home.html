@@ -1,15 +1,32 @@
+<style type="text/css">
+	.ace_editor { height: 200px; }
+	.div-editor{
+		margin-left:0px;
+		border:solid 1px;
+	}
+	.template-item:hover{
+		cursor:pointer;
+		color: blue;
+	}
+	.template-item{
+		font-weight: bold;
+		color:black;
+	}
+</style>
 <div ng-controller="HomeController">
+	<div style="height: 150px;overflow-y: auto;">
+		<ul class="list-group">
+			<li class="template-item list-group-item" ng-class="{'active': file.active === true}" ng-repeat="file in fileNames" ng-click="onTemplateClick(file.name)">{{file.name}}</li>
+		</ul>
+	</div>
 
-	<div class="row">
-		<div class="col-md-6 col-md-offset-4">
-			<div class="logo"></div>
-		</div>
+	<div class="div-editor" 
+		 ng-model="aceText" 
+		 ui-ace="{mode: 'html' , onLoad:aceLoaded , onChange : aceChanged}">
+		
 	</div>
-	<div class="row row-top-margin">
-		<div class="col-md-12">
-			<label>ROOM</label>
-        <input type="text" id="txtRoom" ng-model="roomId" name="roomId" class="form-control" placeholder="Room" required="" autofocus="">
-			<a class="btn btn-lg btn-primary btn-block" href="{{getRoom()}}">Go!!!</a>
-		</div>
-	</div>
+
+	<input id="btnSaveTemplate" class="btn" type="button" value="Save" ng-click="onSaveTemplate()"/>
+	<input id="btnCleanTemplate" class="btn" type="button" value="Clean" ng-click="onCleanTemplate()"/>
+
 </div>

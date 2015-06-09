@@ -12,18 +12,29 @@
 
     Reports.prototype.init = function() {
 
+        router.get('/api/getalltemplates',function(request,response){
+            var pdfController = new PdfController();
+            pdfController.readReportKeys(function(files){
+                response.json(files);
+            });
+        });
+
     	router.post('/api/createtemplate', function(request, response){
     		var newReportKey = utils.getUniqueId(),
+                reportKey = request.body.reportKey,
     			reportTemplate = request.body.htmlTemplate,
     			pdfController = new PdfController({
     				onReportTemplateCreated : function(){
-    					response.end(newReportKey);
+                        if(!request.body.reportKey){
+    					   response.end(newReportKey);
+                        }
+                        response.end();
     				}
     			});
 
     		if(reportTemplate){
     			pdfController.createHTMLTemplate({
-    				reportKey : newReportKey,
+    				reportKey : reportKey || newReportKey,
     				reportTemplate : reportTemplate
     			});
     		}
@@ -53,6 +64,19 @@
 
 	  		response.download(file);
 		});
+
+        router.get('/api/gettemplate', function(request, response){    
+            var pdfController = new PdfController(),
+                reportKey = request.query.reportKey;
+
+            if(reportKey){
+                pdfController.getTemplateText(reportKey,function(html){
+                    response.json({
+                        html : html.toString()
+                    });
+                });
+            }
+        });
 
     };
 

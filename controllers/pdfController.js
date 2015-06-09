@@ -43,16 +43,22 @@
     	var self = this,
     		path = getRootApiPath(config.reportKey);
 
-    	fileSystem.mkdirSync(path);
+        fileSystem.exists(path,function(exist){
 
-    	fileSystem.writeFile(getReportPath(config.reportKey), config.reportTemplate, 'UTF-8', function(error) {
+            if(exist === false){
+                fileSystem.mkdirSync(path);
+            }
+            
+            fileSystem.writeFile(getReportPath(config.reportKey), config.reportTemplate, 'UTF-8', function(error) {
                 if (error) {
                     throw error;
                 }
-                if(self.onReportTemplateCreated){
-                	self.onReportTemplateCreated();
-                }
                 
+                if(self.onReportTemplateCreated){
+                    self.onReportTemplateCreated();
+                }
+            });
+
         });
     }
 
@@ -101,6 +107,32 @@
                 }
             }
         );
+    }
+
+    PdfController.prototype.readReportKeys = function (onReadAllFiles) {
+        fileSystem.readdir(global.app.reportsPath,function(error,files){
+            var result = [];
+
+            if(error){
+                throw error;
+            }
+
+            for (var i = 0; i < files.length; i++) {
+                var fileName = files[i].replace(/^template-/, "");
+                result.push(fileName);
+            };
+
+            onReadAllFiles(result);
+        });
+    }
+
+    PdfController.prototype.getTemplateText = function(templateKey , onLoadHtml){
+          fileSystem.readFile(getReportPath(templateKey), function(error, html) {
+                if (error) {
+                    throw error;
+                }
+                onLoadHtml(html);
+        });
     }
 
     PdfController.prototype.getPDFDocument = function(config){
