@@ -23,10 +23,13 @@
     		router : router
     	});
 
+
     	createIntialFolderForReports();
 		router.use(bodyParser.json());
 		router.use(bodyParser.urlencoded({ extended: true }));
 	    router.use(express.static(path.resolve(__dirname, 'client')));
+
+
 	    reports.init();
 	    startServer();
     }
