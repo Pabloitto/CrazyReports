@@ -1,7 +1,9 @@
 (function(){
 
+	"use strict";
+
     var PdfController = require('../controllers/pdfController'),
-    	utils = require('../utilities/utilities')
+    	utils = require('../utilities/utilities'),
     	router = null;
 
     function Reports(config){
