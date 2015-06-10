@@ -67,7 +67,7 @@
             self = this,
             count = 0,
             len = images.length;
-        console.log("Images found " + len);
+
         if(len > 0){
 	        images.each(function() {
 	            var item = $(this),

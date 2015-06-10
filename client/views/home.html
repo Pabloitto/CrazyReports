@@ -27,11 +27,13 @@
 		
 	</div>
 
-	<input id="btnSaveTemplate" class="btn" type="button" value="Save" ng-click="onSaveTemplate()"/>
-	<input id="btnCleanTemplate" class="btn" type="button" value="Clean" ng-click="onCleanTemplate()"/>
-	<input id="btnTestAPI" class="btn" type="button" value="Test API" ng-click="onTestAPI()"/>
+	<div style="margin-top: 20px">
+		<input id="btnSaveTemplate" class="btn" type="button" value="Save" ng-click="onSaveTemplate()"/>
+		<input id="btnCleanTemplate" class="btn" type="button" value="Clean" ng-click="onCleanTemplate()"/>
+		<input id="btnTestAPI" class="btn" type="button" value="Test API" ng-click="onTestAPI()"/>
+	</div>
 
-	<div class="div-editor-ds editor"
+	<div class="div-editor-ds editor" style="margin-top: 20px"
 		 ng-model="dataSourceText"
 		 ui-ace="{mode: 'json'}">
 
