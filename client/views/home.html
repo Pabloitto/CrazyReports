@@ -1,42 +1,82 @@
 <style type="text/css">
-	.ace_editor { height: 200px; }
-	.editor{
-		margin-left:0px;
-		border:solid 1px;
-	}
-
-	.template-item:hover{
-		cursor:pointer;
-		color: blue;
-	}
-	.template-item{
-		font-weight: bold;
-		color:black;
-	}
+    .ace_editor {
+        height: 500px;
+    }
+    
+    .editor {
+        margin-left: 0px;
+        border: solid 1px;
+    }
+    
+    .template-item:hover {
+        cursor: pointer;
+        color: blue;
+    }
+    
+    .template-item {
+        font-weight: bold;
+        color: black;
+    }
 </style>
-<div ng-controller="HomeController">
-	<div style="height: 150px;overflow-y: auto;">
-		<ul class="list-group">
-			<li class="template-item list-group-item" ng-class="{'active': file.active === true}" ng-repeat="file in fileNames" ng-click="onTemplateClick(file.name)">{{file.name}}</li>
-		</ul>
-	</div>
+<div id="homeController" ng-controller="HomeController">
+    <div style="height: 70px;overflow-y: auto;">
+        <ul class="list-group">
+            <li class="template-item list-group-item" ng-class="{'active': file.active === true}" ng-repeat="file in fileNames" ng-click="onTemplateClick(file.name)">{{file.name}}</li>
+        </ul>
+    </div>
 
-	<div class="div-editor-html editor"
-		 ng-model="htmlText"
-		 ui-ace="{mode: 'html'}">
-		
-	</div>
+    <div style="margin-top: 20px">
+        <input id="btnSaveTemplate" class="btn" type="button" value="Save" ng-click="onSaveTemplate()" />
+        <input id="btnCleanTemplate" class="btn" type="button" value="Clean" ng-click="onCleanTemplate()" />
+        <input id="btnTestAPI" class="btn" type="button" value="Test API" ng-click="onTestAPI()" />
+    </div>
 
-	<div style="margin-top: 20px">
-		<input id="btnSaveTemplate" class="btn" type="button" value="Save" ng-click="onSaveTemplate()"/>
-		<input id="btnCleanTemplate" class="btn" type="button" value="Clean" ng-click="onCleanTemplate()"/>
-		<input id="btnTestAPI" class="btn" type="button" value="Test API" ng-click="onTestAPI()"/>
-	</div>
 
-	<div class="div-editor-ds editor" style="margin-top: 20px"
-		 ng-model="dataSourceText"
-		 ui-ace="{mode: 'json'}">
+    <ul class="main-tabs nav nav-tabs" style="margin-top: 20px">
+        <li class="active"><a data-toggle="tab" data-target="#editor">HTML</a></li>
+        <li><a data-toggle="tab" data-target="#code">Code</a></li>
+        <li><a data-toggle="tab" data-target="#inline">Data Source</a></li>
+        <li><a data-toggle="tab" data-target="#api" ng-click="onClickApi()">API</a></li>
+    </ul>
 
-	</div>
+    <div class="tab-content">
+        <div id="editor" class="tab-pane fade in active">
+            <h3>Editor</h3>
+            <div>
+                <form method="post">
+                    <textarea ui-tinymce="htmlEditorConfig" ng-model="tinymceModel"></textarea>
+                </form>
+            </div>
+        </div>
+        <div id="code" class="tab-pane fade">
+            <h3>Code</h3>
+            <div class="div-editor-html editor" ng-model="htmlText" ui-ace="{mode: 'html', onChange : onHtmlTextChange}">
+            </div>
+        </div>
+        <div id="inline" class="tab-pane fade">
+            <h3>Data Source</h3>
+            <div class="div-editor-ds editor" ng-model="dataSourceText" ui-ace="{mode: 'json'}">
+            </div>
+        </div>
+        <div id="api" class="tab-pane fade">
+            <h3>API</h3>
+                <h1>Request<h1>
+
+                <h2>Base URL</h2>
+                <p>
+                All requests to Crazy Reports must be submitted to the base URL. We provides you with an option of a response as a JSON object.
+
+                </p>
+                <code ng-model="baseUrl"></code>
+                <h2>HTTP Methods</h2>
+                <p>
+                All requests are submitted through the HTTP POST or GET method using UTF-8 encoding and URL encoded values.
+
+                Expected "Content-Type" for POST is "application/json" when posting parameters as a JSON object.
+                </p>
+                <h2>Parameters</h2>
+                <code ng-model="parametersApi"></code>
+        </div>
+    </div>
 
 </div>

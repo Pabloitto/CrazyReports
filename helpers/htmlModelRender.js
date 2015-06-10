@@ -1,68 +1,73 @@
-(function(){
-	
-	"use strict";
+(function() {
 
-	var $ = require('cheerio'),
-	    _ = require('underscore');
+    "use strict";
 
-	function HtmlModelRender(config){
-		this.html = config.html || "";
-		this.dataSource = config.dataSource || {};
-		this.document = $(this.html);
-	}
+    var $ = require('cheerio'),
+        _ = require('underscore');
 
-	HtmlModelRender.prototype.html = "";
-	HtmlModelRender.prototype.document = null;
-	HtmlModelRender.prototype.dataSource = {};
+    function HtmlModelRender(config) {
+        this.html = config.html || "";
+        this.dataSource = config.dataSource || {};
+        this.document = $(this.html);
+    }
 
-	HtmlModelRender.prototype.renderProperties = function() {
-		for (var prop in this.dataSource) {
-			var data = this.dataSource[prop];
-			if(_.isArray(data) === true){
-				this.renderDataTable({
-					prop : prop,
-					data : data
-				});
-			}else{
-				var currentElement = this.document.find("[data-model-property='"+prop+"']");
-				if(currentElement){
-					if(currentElement.hasClass('image')){
-						currentElement.attr('src',"data:image/png;base64," + data);
-					}else{
-						currentElement.text(data.toString());
-					}
-				}
-			}
-		}
+    HtmlModelRender.prototype.html = "";
+    HtmlModelRender.prototype.document = null;
+    HtmlModelRender.prototype.dataSource = {};
 
-		return this.document;
-	};
+    HtmlModelRender.prototype.renderProperties = function() {
+        for (var prop in this.dataSource) {
+            var data = this.dataSource[prop];
+            if (_.isArray(data) === true) {
+                this.renderDataTable({
+                    prop: prop,
+                    data: data
+                });
+            } else {
+                var currentElement = this.document.find("[data-model-property='" + prop + "']");
+                if (currentElement) {
+                    if (currentElement.hasClass('image')) {
+                        currentElement.attr('src', "data:image/png;base64," + data);
+                    } else {
+                        currentElement.text(data.toString());
+                    }
+                }
+            }
+        }
 
-	HtmlModelRender.prototype.renderDataTable = function(dataSourceObject){
-		var currentElement = this.document.find("[data-table-source='"+dataSourceObject.prop+"']"),
-			propertiesToRender = {},
-			html = '',
-			tbody = null;
+        return this.document;
+    };
 
-		if(currentElement){
-			currentElement.find("thead > tr > th").each(function(){
-				propertiesToRender[$(this).data("model-dsproperty")] = "";
-			});
+    HtmlModelRender.prototype.renderDataTable = function(dataSourceObject) {
+        var currentElement = this.document.find("[data-table-source='" + dataSourceObject.prop + "']"),
+            propertiesToRender = {},
+            html = '',
+            tbody = null;
 
-			tbody = currentElement.find("tbody");
+        if (currentElement) {
+            currentElement.find("thead > tr > th").each(function() {
+                propertiesToRender[$(this).data("model-dsproperty")] = "";
+            });
 
-			dataSourceObject.data.forEach(function(entry){
-				html += '<tr>';
-				for(var p in propertiesToRender){
-					var value = entry[p];
-					html+="<td>"+value+"</td>";
-				}
-				html+="</tr>";
-			});
-			tbody.append(html);
-		}
-	};
+            tbody = currentElement.find("tbody");
 
-	module.exports = HtmlModelRender;
+            if (!tbody || tbody.length === 0) {
+                tbody = $("<tbody></tbody>");
+                currentElement.append(tbody);
+            }
+
+            dataSourceObject.data.forEach(function(entry) {
+                html += '<tr>';
+                for (var p in propertiesToRender) {
+                    var value = entry[p];
+                    html += "<td>" + value + "</td>";
+                }
+                html += "</tr>";
+            });
+            tbody.append(html);
+        }
+    };
+
+    module.exports = HtmlModelRender;
 
 }());
