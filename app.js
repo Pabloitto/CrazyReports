@@ -11,7 +11,8 @@
         router = express(),
         bodyParser = require('body-parser'),
         server = http.createServer(router),
-        ReportsRouter = require('./routes/reports');
+        ReportsRouter = require('./routes/reports'),
+        TemplatesRouter = require('./routes/templates');
 
     global.app.reportsFolderName = 'reports';
     global.app.rootPath = __dirname;
@@ -19,9 +20,14 @@
 
 
     function init(){
+
     	var reports = new ReportsRouter({
     		router : router
     	});
+
+        var templates = new TemplatesRouter({
+            router : router
+        });
 
 
         createInitialFolderForReports();
@@ -31,6 +37,8 @@
 
 
 	    reports.init();
+        templates.init();
+
 	    startServer();
     }
 

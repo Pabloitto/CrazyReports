@@ -2,7 +2,7 @@
 
 	"use strict";
 
-	var HomeController = function($scope,HomeService){
+	var HomeController = function($scope,ReportsService,TemplatesService){
 
 		var initialHtml = '<div class="container">\n\n</div>';
 
@@ -19,7 +19,7 @@
 				model.reportKey = activeItem.name;
 			}
 
-			HomeService.saveHtmlTemplate({
+			TemplatesService.saveHtmlTemplate({
 				reportKey : model.reportKey,
 				htmlTemplate : model.htmlTemplate
 			},function(templateKey){
@@ -52,11 +52,11 @@
 			var activeItem = findActiveItem(),
 				dataSource = JSON.parse($scope.dataSourceText);
 			if(activeItem && dataSource) {
-				HomeService.createReport({
+				ReportsService.createReport({
 					reportKey: activeItem.name,
 					dataSource: dataSource
 				}, function (data) {
-					window.open('api/getreport?reportKey=' + activeItem.name + "&reportName=" + data, '_blank');
+					window.open(data, '_blank');
 				});
 			}
 		}
@@ -66,7 +66,7 @@
 			var needLoadHtml = activeItem(fileName);
 			$scope.htmlText = initialHtml;
 			if(needLoadHtml === true){
-				HomeService.loadHtmlTemplate(fileName, function(html){
+				TemplatesService.loadHtmlTemplate(fileName, function(html){
 					$scope.htmlText = html;
 				});
 			}
@@ -125,8 +125,7 @@
 
 		function init(){
 			initScope();
-
-			HomeService.loadAllTemplates(function(files){
+			TemplatesService.loadAllTemplates(function(files){
 				files.forEach(function(entry){
 					$scope.fileNames.push({
 						name : entry,
@@ -139,6 +138,6 @@
 		init();
 	};
 
-	$.App.CrazyReports.controller('HomeController',['$scope', 'HomeService', HomeController]);
+	$.App.CrazyReports.controller('HomeController',['$scope', 'ReportsService','TemplatesService', HomeController]);
 	
 }());
