@@ -37,10 +37,35 @@
 			});
 		}
 
+		function createReport(p,onFinish){
+			$http.post('/api/createreport', p, {
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}).success(function (data, status, headers, config) {
+				onFinish(data);
+			});
+		}
+
+		function getReport(reportKey,reportName,onFinish){
+			$http.get('/api/getreport', {
+				params : {
+					reportKey : reportKey,
+					reportName : reportName
+				}
+			}).success(function(data, status, headers, config) {
+				onFinish(data);
+			}).error(function(data, status, headers, config) {
+				console.log(data);
+			});
+		}
+
 		return {
 		    saveHtmlTemplate: saveHtmlTemplate,
 		    loadAllTemplates : loadAllTemplates,
-		    loadHtmlTemplate : loadHtmlTemplate
+		    loadHtmlTemplate : loadHtmlTemplate,
+			createReport : createReport,
+			getReport : getReport
 		}
 	}
 

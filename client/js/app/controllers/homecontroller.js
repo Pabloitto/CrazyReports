@@ -1,24 +1,14 @@
 (function(){
 
+	"use strict";
+
 	var HomeController = function($scope,HomeService){
 
-		var initialHtml = '<!DOCTYPE html>\n<html>\n\n</html>';
+		var initialHtml = '<div class="container">\n\n</div>';
 
 		$scope.fileNames = [];
-		$scope.aceText = initialHtml;
-
-		function aceLoaded(_editor){
-			HomeService.loadAllTemplates(function(files){
-				files.forEach(function(entry){
-					$scope.fileNames.push({
-						name : entry,
-						active : false
-					});
-				});
-			});
-		}
-
-		function aceChanged(e){}
+		$scope.htmlText = initialHtml;
+		$scope.dataSourceText = '';
 
 		function onSaveTemplate(){
 
@@ -44,22 +34,40 @@
 					activeItem.active = false;
 				}
 
-				$scope.aceText = initialHtml;
+				$scope.htmlText = initialHtml;
 			});
 		}
 
 
 		function onCleanTemplate(){
-			$scope.aceText = initialHtml;
+			var activeItem = findActiveItem();
+			if(activeItem) {
+				activeItem.active = false;
+			}
+			$scope.htmlText = initialHtml;
+			$scope.dataSourceText = '';
+		}
+
+		function onTestAPI(){
+			var activeItem = findActiveItem(),
+				dataSource = JSON.parse($scope.dataSourceText);
+			if(activeItem && dataSource) {
+				HomeService.createReport({
+					reportKey: activeItem.name,
+					dataSource: dataSource
+				}, function (data) {
+					window.open('api/getreport?reportKey=' + activeItem.name + "&reportName=" + data, '_blank');
+				});
+			}
 		}
 
 
 		function onTemplateClick(fileName){
 			var needLoadHtml = activeItem(fileName);
-			$scope.aceText = initialHtml;
+			$scope.htmlText = initialHtml;
 			if(needLoadHtml === true){
 				HomeService.loadHtmlTemplate(fileName, function(html){
-					$scope.aceText = html;
+					$scope.htmlText = html;
 				});
 			}
 		}
@@ -99,11 +107,10 @@
 		}
 
 		function bindEvents(){
-			$scope.aceChanged = aceChanged;
-			$scope.aceLoaded = aceLoaded;
 			$scope.onSaveTemplate = onSaveTemplate;
 			$scope.onTemplateClick = onTemplateClick;
 			$scope.onCleanTemplate = onCleanTemplate;
+			$scope.onTestAPI = onTestAPI;
 		}
 
 		function initScope(){
@@ -112,12 +119,21 @@
 
 		function getModel(){
 			return {
-				htmlTemplate : $scope.aceText
+				htmlTemplate : $scope.htmlText
 			};
 		}
 
 		function init(){
 			initScope();
+
+			HomeService.loadAllTemplates(function(files){
+				files.forEach(function(entry){
+					$scope.fileNames.push({
+						name : entry,
+						active : false
+					});
+				});
+			});
 		}
 
 		init();

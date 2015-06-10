@@ -29,7 +29,7 @@
 					if(currentElement.hasClass('image')){
 						currentElement.attr('src',"data:image/png;base64," + data);
 					}else{
-						currentElement.text(data);
+						currentElement.text(data.toString());
 					}
 				}
 			}

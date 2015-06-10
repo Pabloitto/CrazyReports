@@ -1,9 +1,10 @@
 <style type="text/css">
 	.ace_editor { height: 200px; }
-	.div-editor{
+	.editor{
 		margin-left:0px;
 		border:solid 1px;
 	}
+
 	.template-item:hover{
 		cursor:pointer;
 		color: blue;
@@ -20,13 +21,20 @@
 		</ul>
 	</div>
 
-	<div class="div-editor" 
-		 ng-model="aceText" 
-		 ui-ace="{mode: 'html' , onLoad:aceLoaded , onChange : aceChanged}">
+	<div class="div-editor-html editor"
+		 ng-model="htmlText"
+		 ui-ace="{mode: 'html'}">
 		
 	</div>
 
 	<input id="btnSaveTemplate" class="btn" type="button" value="Save" ng-click="onSaveTemplate()"/>
 	<input id="btnCleanTemplate" class="btn" type="button" value="Clean" ng-click="onCleanTemplate()"/>
+	<input id="btnTestAPI" class="btn" type="button" value="Test API" ng-click="onTestAPI()"/>
+
+	<div class="div-editor-ds editor"
+		 ng-model="dataSourceText"
+		 ui-ace="{mode: 'json'}">
+
+	</div>
 
 </div>
