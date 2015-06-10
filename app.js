@@ -24,7 +24,7 @@
     	});
 
 
-    	createIntialFolderForReports();
+        createInitialFolderForReports();
 		router.use(bodyParser.json());
 		router.use(bodyParser.urlencoded({ extended: true }));
 	    router.use(express.static(path.resolve(__dirname, 'client')));
@@ -34,7 +34,7 @@
 	    startServer();
     }
 
-    function createIntialFolderForReports(){
+    function createInitialFolderForReports(){
         fileSystem.exists(global.app.reportsPath,function(exists){
             if(exists === false){
                 fileSystem.mkdirSync(global.app.reportsPath);
