@@ -159,7 +159,9 @@
                 height: 400,
                 plugins: 'image table',
                 skin: 'lightgray',
-                theme: 'modern'
+                theme: 'modern',
+                file_browser_callback: function(field_name, url, type, win) {
+                }
             };
         }
 
