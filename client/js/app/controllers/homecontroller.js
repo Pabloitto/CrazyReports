@@ -113,7 +113,7 @@
             buildDataSourceTemplate();
         }
 
-        function buildDataSourceTemplate () {
+        function buildDataSourceTemplate (argument) {
             var domDocument = $($scope.htmlText),
                 inlineDataSource = {};
 
@@ -123,12 +123,12 @@
 
             domDocument.find("[data-table-source]").each(function(){
                 var arrayDs = [];
-                var itemDs = {};
-                $(this).find("[data-model-dsproperty]").each(function(index, element){
-                    itemDs[$(element).data('model-dsproperty')] = '';
-                });
 
-                arrayDs.push(itemDs);
+                $(this).find("[data-model-dsproperty]").each(function(index, element){
+                    var itemDs = {};
+                    itemDs[$(element).data('model-dsproperty')] = '';
+                    arrayDs.push(itemDs);
+                });
 
                 inlineDataSource[$(this).data('table-source')] = arrayDs;
             });
