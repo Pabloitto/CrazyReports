@@ -1,17 +1,13 @@
 (function(){
 
-	 var LoginController = function ($scope, GAuth, $state) {
+	 var LoginController = function ($scope, $location) {
 
-         $scope.doSingup = function() {
-             GAuth.login().then(function(){
-                 $state.go('webapp.home'); // action after the user have validated that
-                 // your application can access their Google account.
-             }, function() {
-                 console.log('login fail');
-             });
+         $scope.doSingup = function(){
+             $location.url("/home");
          };
-    }
 
-    $.App.CrazyReports.controller('LoginController', ['$scope', 'GAuth', '$state', LoginController]);
+    };
+
+    $.App.CrazyReports.controller('LoginController', ['$scope','$location', LoginController]);
 
 }());
