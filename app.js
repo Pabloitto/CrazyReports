@@ -12,6 +12,7 @@
         bodyParser = require('body-parser'),
         server = http.createServer(router),
         ReportsRouter = require('./routes/reports'),
+        UsersRouter = require('./routes/users'),
         TemplatesRouter = require('./routes/templates');
 
     global.app.reportsFolderName = 'reports';
@@ -29,6 +30,9 @@
             router : router
         });
 
+        var users = new UsersRouter({
+            router : router
+        });
 
         createInitialFolderForReports();
 		router.use(bodyParser.json());
@@ -38,6 +42,7 @@
 
 	    reports.init();
         templates.init();
+        users.init();
 
 	    startServer();
     }

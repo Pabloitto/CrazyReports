@@ -1,23 +1,13 @@
 (function(){
 
-	 var LoginController = function ($scope) {
+	 var LoginController = function ($scope, $location) {
 
-        function init() {
-            bindEvents();
-        }
+         $scope.doSingup = function(){
+             $location.url("/home");
+         };
 
-        function login() {
-            
-        }
+    };
 
-        //Attach events
-        function bindEvents() {
-
-        }
-
-        init();
-    }
-
-    $.App.CrazyReports.controller('LoginController', ['$scope', LoginController]);
+    $.App.CrazyReports.controller('LoginController', ['$scope','$location', LoginController]);
 
 }());

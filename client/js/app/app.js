@@ -2,7 +2,7 @@
 
     $.App = {};
 
-    $.App.CrazyReports = angular.module('CrazyReports', ['ngRoute', 'ui.ace', 'ui.tinymce']);
+    $.App.CrazyReports = angular.module('CrazyReports', ['ngRoute', 'ui.ace', 'ui.tinymce' ]);
 
     $.App.CrazyReports.config(function($routeProvider) {
 
