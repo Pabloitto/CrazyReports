@@ -19,10 +19,17 @@
         for (var prop in this.dataSource) {
             var data = this.dataSource[prop];
             if (_.isArray(data) === true) {
+
                 this.renderDataTable({
                     prop: prop,
                     data: data
                 });
+
+                this.renderRepeat({
+					prop: prop,
+                    data: data
+                });
+
             } else {
                 var currentElement = this.document.find("[data-model-property='" + prop + "']");
                 if (currentElement) {
@@ -37,6 +44,23 @@
 
         return this.document;
     };
+
+    HtmlModelRender.prototype.renderRepeat = function(dataSourceObject){
+    	var currentElement = this.document.find("[data-repeat='" + dataSourceObject.prop + "']"),
+    		alias = currentElement.data('item-alias'),
+    		html = $(currentElement).html(),
+    		newHtml = '';
+
+        dataSourceObject.data.forEach(function(entry) {
+        	newHtml += html;
+    		newHtml.match(/{{.*?}}/g).forEach(function(token){
+    			token = token.replace('{{','').replace('}}','');
+    			newHtml = newHtml.replace( new RegExp("{{" + token + "}}", 'g'),entry[token]);
+    		});
+        });
+    	
+    	$(currentElement).html(newHtml);
+    }
 
     HtmlModelRender.prototype.renderDataTable = function(dataSourceObject) {
         var currentElement = this.document.find("[data-table-source='" + dataSourceObject.prop + "']"),

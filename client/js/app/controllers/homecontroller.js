@@ -121,6 +121,10 @@
                 inlineDataSource[$(this).data('model-property')] = '';
             });
 
+            domDocument.find("[data-repeat]").each(function(){
+                inlineDataSource[$(this).data('repeat')] = [];
+            });
+
             domDocument.find("[data-table-source]").each(function(){
                 var arrayDs = [];
                 var itemDs = {};

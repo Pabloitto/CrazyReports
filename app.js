@@ -51,7 +51,7 @@
     }
 
    	function startServer(){
-        router.set('port', (process.env.PORT || 5000));
+        router.set('port', (process.env.PORT || 8081));
         router.listen(router.get('port'), function() {
           console.log('Node app is running on port', router.get('port'));
         });
