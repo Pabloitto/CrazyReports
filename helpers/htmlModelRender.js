@@ -54,8 +54,14 @@
         dataSourceObject.data.forEach(function(entry) {
         	newHtml += html;
     		newHtml.match(/{{.*?}}/g).forEach(function(token){
+                var value = "";
     			token = token.replace('{{','').replace('}}','');
-    			newHtml = newHtml.replace( new RegExp("{{" + token + "}}", 'g'),entry[token]);
+                if(token && token === alias){
+                    value = entry;
+                }else{
+                    value = entry[token];
+                }
+                newHtml = newHtml.replace(new RegExp("{{" + token + "}}", 'g'),value);
     		});
         });
     	
