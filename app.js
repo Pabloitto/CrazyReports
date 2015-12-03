@@ -55,7 +55,6 @@
         });
     }
     
-   /*Start the application*/
    function startServer(){
         router.set('port', (process.env.PORT || 8081));
         router.listen(router.get('port'), function() {
